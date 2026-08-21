@@ -1,119 +1,163 @@
 # Arch Savings Tracker
 
-> **Save money. Track progress. Stay in control.**
+> **A 10,000-unit savings challenge for the terminal.**
 
-A minimal, terminal-based savings tracker inspired by the philosophy and aesthetic of Arch Linux.
+A minimal, Arch-inspired terminal savings tracker built with Python.
 
-No bloated dashboards. No subscriptions. No accounts. No unnecessary analytics.
+The concept is deliberately simple: **50 savings tiles, one fixed goal, and a terminal interface that makes watching the number go up considerably more satisfying than it has any right to be.**
 
-Just your goals, your money, and a terminal.
+No accounts. No cloud dashboard. No subscription.
+
+Just save a tile, watch the grid fill up, and eventually discover that apparently small amounts of money do, in fact, become real money when you stop spending them.
 
 ---
 
-## Why?
+## The Idea
 
-Saving money is easy to understand and surprisingly difficult to maintain.
+Arch Savings Tracker is built around a simple **50-tile savings challenge**.
 
-Arch Savings Tracker is built around a simple idea: personal finance does not need to become another complicated application you have to manage.
+The tracker contains 50 tiles with values ranging from **100 to 300**, adding up to a total savings target of **10,000**.
 
-Set a goal.
+Each tile represents one contribution.
 
-Save towards it.
+Mark a tile as saved, and your progress increases.
 
-Track your progress.
+Fill the grid, and you've completed the challenge.
 
-Repeat.
+```text
+50 Tiles
+    |
+    v
+Save a Tile
+    |
+    v
+Progress Updates
+    |
+    v
+10,000 Goal
+```
 
-The terminal is fast, transparent, and already sitting in front of you. Might as well make it useful.
+It's intentionally more visual than a conventional expense tracker.
+
+Instead of staring at a balance and wondering whether you're making progress, you can watch the grid gradually disappear into completion.
 
 ---
 
 ## Features
 
-* **Savings Goals**
-  Create and track financial goals with a defined target.
+### 50-Tile Savings Grid
 
-* **Contribution Tracking**
-  Record savings contributions and keep your progress up to date.
+The core of the application is a 50-entry savings challenge.
 
-* **Progress Visualization**
-  See exactly how close you are to reaching your target.
+Each tile has a fixed contribution amount and can be marked as saved when you've completed it.
 
-* **Terminal-First Interface**
-  Designed for people who would rather type a command than navigate twelve dashboard cards.
+The grid provides an immediate overview of what you've completed and what remains.
 
-* **Arch-Inspired Design**
-  A minimal interface influenced by Arch Linux and the Unix philosophy.
+### Live Progress Bar
 
-* **Local-First**
-  Your financial data stays on your machine instead of becoming another entry in someone's database.
-
-* **Lightweight**
-  No unnecessary infrastructure for a program whose primary job is basic arithmetic.
-
----
-
-## Philosophy
-
-Arch Linux is built around a few ideas that translate surprisingly well to personal finance:
-
-**Simplicity. Transparency. Control.**
-
-The tracker follows the same approach.
-
-You should always know:
+The tracker calculates your current savings progress and displays it as a terminal progress bar.
 
 ```text
-Target
-Saved
-Remaining
-Progress
+Progress:[████████████████████░░░░░░░░░░░░░░░░] 50.0%
 ```
 
-Nothing is hidden behind unnecessary abstractions.
+### Financial Summary
 
-No algorithm needs to "understand your spending personality."
+Get a compact overview of:
 
-No machine learning model needs to tell you that spending ₹4,000 while trying to save ₹3,000 is probably suboptimal.
+* Total saved
+* Total goal
+* Remaining amount
+* Completed tiles
 
-The numbers are right there.
+Because sometimes you just need the numbers without a motivational TED Talk.
+
+### Multiple Currencies
+
+Choose between:
+
+```text
+$
+€
+₹
+```
+
+The currency setting is stored locally and persists between sessions.
+
+### Five Terminal Themes
+
+Choose from five built-in color schemes:
+
+* Arch Cyan
+* Nord Frost
+* Dracula
+* Gruvbox Retro
+* Cyberpunk Neon
+
+The interface uses ANSI TrueColor formatting to give the terminal a proper themed experience rather than dumping plain text into a shell and calling it a UI.
+
+### Local Persistence
+
+The tracker stores its state locally using JSON.
+
+Two files are used:
+
+```text
+savings_data.json
+tracker_config.json
+```
+
+Your progress and interface preferences survive application restarts without requiring an account or external service.
 
 ---
 
 ## Preview
 
 ```text
-╭────────────────────────────────────────────╮
-│          ARCH SAVINGS TRACKER              │
-├────────────────────────────────────────────┤
-│                                            │
-│  Goal: New Guitar                          │
-│                                            │
-│  Target       ₹30,000                      │
-│  Saved        ₹18,500                      │
-│  Remaining    ₹11,500                      │
-│                                            │
-│  Progress     ████████████░░░░  61.7%      │
-│                                            │
-│  Status       Saving...                    │
-│                                            │
-╰────────────────────────────────────────────╯
-```
+       /\         ARCH SAVINGS TRACKER v3.0
+      /  \        ====================================
+     /  /\       OS Host: Arch Linux CLI (TUI Engine)
+    /  /  \      Target:  50-Tile Grid (Goal: 10,000)
+   /  /__  \     Theme:   Arch Cyan (Official)
+  /______  \
+ /        \  \
 
-Your terminal has never looked this financially responsible.
+--- SAVINGS PROGRESS GRID ---
+
+Progress:[████████████████████████░░░░░░░░] 61.0%
+
++-----------------------+-----------------------+
+| ID | Amt    | State  | ID | Amt    | State  |
++-----------------------+-----------------------+
+|  1 | ₹100   | [✓]    |  2 | ₹150   | [✓]    |
++-----------------------+-----------------------+
+
+=================== STATS SUMMARY ===================
+Total Saved: ₹6,100 / ₹10,000
+Remaining  : ₹3,900
+Tiles Done : 30 of 50 completed
+=====================================================
+```
 
 ---
 
-## Tech Stack
+## Interface
 
-Built with:
+The main menu provides seven operations:
 
-* Python
-* Terminal-based UI
-* Local data persistence
-* Standard Python tooling
+```text
+[1] View Progress Grid
+[2] Mark Tile as Saved
+[3] View Financial Summary
+[4] Unmark Tile / Reset All
+[5] Change Currency
+[6] Change Color Theme
+[7] Exit
+```
 
-The project intentionally keeps its dependency footprint small.
+The interface is intentionally menu-driven.
+
+You don't need to remember a command hierarchy just to mark a tile as saved. The terminal tells you what to do.
 
 ---
 
@@ -126,27 +170,61 @@ git clone https://github.com/x0ra-ssh/Arch-themed-savings-tracker.git
 cd Arch-themed-savings-tracker
 ```
 
-Run the application:
+Run:
 
 ```bash
 python main.py
 ```
 
-Depending on your environment, you may need to use `python3` instead.
+On systems where Python is invoked as `python3`:
+
+```bash
+python3 main.py
+```
+
+No external database or server is required.
 
 ---
 
-## Usage
+## How It Works
 
-Launch the tracker and use the terminal interface to:
+The application initializes a local JSON database containing the 50 savings tiles.
 
-1. Create a savings goal.
-2. Define the target amount.
-3. Record contributions.
-4. Monitor your progress.
-5. Continue saving until the goal is reached.
+Each tile has three properties:
 
-Simple by design.
+```json
+{
+    "id": 1,
+    "amount": 100,
+    "saved": false
+}
+```
+
+When a tile is marked as saved, its state changes:
+
+```json
+{
+    "id": 1,
+    "amount": 100,
+    "saved": true
+}
+```
+
+The application then calculates:
+
+```text
+Total Goal = Sum of all tile amounts
+
+Total Saved = Sum of saved tile amounts
+
+Remaining = Total Goal - Total Saved
+
+Progress = Total Saved / Total Goal
+```
+
+Nothing mysterious.
+
+Just a small amount of arithmetic wearing a very serious terminal interface.
 
 ---
 
@@ -156,60 +234,68 @@ Simple by design.
 Arch-themed-savings-tracker/
 │
 ├── main.py
-├── LICENSE
+├── savings_data.json       # Generated local progress data
+├── tracker_config.json     # Generated configuration
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
-The project is intentionally small and approachable.
+The application itself is intentionally contained in a single Python entry point.
 
-There is no reason for a savings tracker to require an enterprise architecture diagram.
+For a small terminal utility, that's a feature rather than an architectural crime.
 
 ---
 
-## Privacy
+## Design Philosophy
 
-Your financial information is personal.
+The project takes inspiration from the Unix and Arch Linux approach to software:
 
-This project is designed around local usage rather than sending your financial activity to a remote service.
+**Keep it simple. Keep it understandable. Keep the user in control.**
 
-Your savings should remain your business.
+There is no backend.
+
+There is no authentication system.
+
+There is no telemetry.
+
+There is no account creation flow.
+
+There is no web application pretending that calculating a percentage requires a distributed architecture.
+
+The tracker does one thing and tries to do it cleanly.
 
 ---
 
 ## Roadmap
 
-The project can naturally grow without losing its simplicity.
+Possible future improvements include:
 
-Potential improvements include:
+* Custom savings goals
+* User-defined tile amounts
+* Multiple challenges
+* Savings history
+* Contribution timestamps
+* Data export/import
+* Richer terminal visualizations
+* Command-line arguments
+* Automated tests
+* Configurable themes
+* Installable Python package
 
-* Multiple savings goals
-* Expense tracking
-* Monthly budgets
-* Data export and import
-* Rich terminal charts
-* Custom themes
-* Goal deadlines
-* Savings projections
-* Configuration files
-* Automated testing
-* Installable CLI packages
-
-The objective is not to add features for the sake of having features.
-
-The objective is to make the tracker more useful while keeping it lightweight.
+The challenge is to expand the utility without destroying the simplicity that makes it useful in the first place.
 
 ---
 
 ## Contributing
 
-Contributions, improvements, bug fixes, and ideas are welcome.
+Contributions are welcome.
 
-If you're extending the project, keep its core philosophy intact:
+If you want to improve the project, fork the repository, make your changes, and open a pull request.
 
-**Simple. Transparent. Useful.**
+Keep the core principle intact:
 
-Fork the repository, make your changes, and open a pull request.
+> **More useful, not merely more complicated.**
 
 ---
 
@@ -217,18 +303,24 @@ Fork the repository, make your changes, and open a pull request.
 
 This project is licensed under the **GNU General Public License v3.0**.
 
-See [`LICENSE`](./LICENSE) for the full license text.
+See [`LICENSE`](./LICENSE) for the complete license text.
 
 ---
 
-## Final Thought
+## Final Note
 
-There are thousands of budgeting applications competing to tell you that you spent too much money on coffee.
+Personal finance apps love dashboards.
 
-This one takes a different approach.
+Graphs. Notifications. Recommendations. Accounts. Syncing. Twelve different ways to tell you that you spent too much money.
 
-It gives you a goal, shows you the numbers, and gets out of the way.
+Arch Savings Tracker takes the opposite route.
 
-**Open the terminal. Set the goal. Start saving.**
+**Fifty tiles. Ten thousand. One terminal.**
 
-> *Keep it simple. Keep it yours.*
+Save the tile.
+
+Fill the grid.
+
+Finish the challenge.
+
+> **Keep it simple. Keep it yours.**
