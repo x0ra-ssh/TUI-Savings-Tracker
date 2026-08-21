@@ -1,163 +1,233 @@
 # TUI Savings Tracker
 
-> **A 10,000-unit savings challenge for the terminal.**
+> **A terminal-native approach to disciplined saving.**
 
-A minimal terminal savings tracker with a TUI built with Python.
+TUI Savings Tracker is a lightweight, keyboard-driven savings challenge built for the terminal.
 
-The concept is deliberately simple: **50 savings tiles, one fixed goal, and a terminal interface that makes watching the number go up considerably more satisfying than it has any right to be.**
+It takes a deliberately simple premise: saving money is easier to understand when progress is visible, interaction is immediate, and the software stays out of the way.
 
-No accounts. No cloud dashboard. No subscription.
+The application provides a 50-tile savings challenge with a total target of 10,000 units, persistent local state, configurable themes, and a dashboard designed around the information that actually matters.
 
-Just save a tile, watch the grid fill up, and eventually discover that apparently small amounts of money do, in fact, become real money when you stop spending them.
+No account system. No cloud dependency. No financial dashboard pretending it needs machine learning.
 
----
-
-## The Idea
-
-TUI Savings Tracker is built around a simple **50-tile savings challenge**.
-
-The tracker contains 50 tiles with values ranging from **100 to 300**, adding up to a total savings target of **10,000**.
-
-Each tile represents one contribution.
-
-Mark a tile as saved, and your progress increases.
-
-Fill the grid, and you've completed the challenge.
-
-```text
-50 Tiles
-    |
-    v
-Save a Tile
-    |
-    v
-Progress Updates
-    |
-    v
-10,000 Goal
-```
-
-It's intentionally more visual than a conventional expense tracker.
-
-Instead of staring at a balance and wondering whether you're making progress, you can watch the grid gradually disappear into completion.
+Just the numbers.
 
 ---
 
-## Features
+## Philosophy
 
-### 50-Tile Savings Grid
+TUI Savings Tracker takes inspiration from the design philosophy of serious terminal applications such as `btop`:
 
-The core of the application is a 50-entry savings challenge.
+* information should be visible at a glance
+* interaction should be keyboard-first
+* the interface should remain responsive
+* configuration should belong to the user
+* visual design should support information rather than compete with it
 
-Each tile has a fixed contribution amount and can be marked as saved when you've completed it.
+The result is less of a traditional command-line utility and more of a small, self-contained terminal workspace.
 
-The grid provides an immediate overview of what you've completed and what remains.
+---
 
-### Live Progress Bar
+## The 10,000 Challenge
 
-The tracker calculates your current savings progress and displays it as a terminal progress bar.
-
-```text
-Progress:[████████████████████░░░░░░░░░░░░░░░░] 50.0%
-```
-
-### Financial Summary
-
-Get a compact overview of:
-
-* Total saved
-* Total goal
-* Remaining amount
-* Completed tiles
-
-Because sometimes you just need the numbers without a motivational TED Talk.
-
-### Multiple Currencies
-
-Choose between:
+The tracker contains **50 savings tiles** distributed across five contribution values:
 
 ```text
-$
-€
-₹
+100
+150
+200
+250
+300
 ```
 
-The currency setting is stored locally and persists between sessions.
+Each value appears ten times.
 
-### Five Terminal Themes
+That produces:
 
-Choose from five built-in color schemes:
+```text
+50 tiles
+×
+2,000 total per five-value set
+×
+5 sets
+=
+10,000 total
+```
 
-* Arch Cyan
-* Nord Frost
-* Dracula
-* Gruvbox Retro
-* Cyberpunk Neon
+More simply:
 
-The interface uses ANSI TrueColor formatting to give the terminal a proper themed experience rather than dumping plain text into a shell and calling it a UI.
+```text
+100 + 150 + 200 + 250 + 300 = 1,000
 
-### Local Persistence
+1,000 × 10 = 10,000
+```
 
-The tracker stores its state locally using JSON.
+Every tile represents one contribution.
 
-Two files are used:
+Complete the grid, and the challenge is complete.
+
+---
+
+## Interface
+
+The application is designed as a persistent dashboard rather than a sequence of numbered menus.
+
+The interface is built around several ideas:
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                    TUI SAVINGS TRACKER                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  PROGRESS        ███████████████████░░░░░░░░░░   47.5%      │
+│                  4,750 / 10,000                             │
+│                                                             │
+├──────────────────────────────────────┬──────────────────────┤
+│                                      │ SUMMARY              │
+│  SAVINGS GRID                        │                      │
+│                                      │ SAVED      ₹4,750    │
+│  ┌────────┐ ┌────────┐ ┌────────┐   │ GOAL       ₹10,000   │
+│  │ ✓ 01   │ │ · 02   │ │ ✓ 03   │   │ REMAIN     ₹5,250    │
+│  │    100 │ │    150 │ │    200 │   │ TILES      20 / 50   │
+│  └────────┘ └────────┘ └────────┘   │                      │
+│                                      │ THEME      Arch Cyan │
+│                                      │                      │
+├──────────────────────────────────────┴──────────────────────┤
+│ ↑↓←→ Navigate   Enter Save   r Unmark   R Reset   t Theme  │
+│ c Currency   q Quit                                           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+The exact layout adapts to the available terminal dimensions.
+
+---
+
+## Interaction
+
+The interface is keyboard-first.
+
+| Key       | Action                           |
+| --------- | -------------------------------- |
+| `↑ ↓ ← →` | Navigate the savings grid        |
+| `Enter`   | Mark or unmark the selected tile |
+| `r`       | Unmark the selected tile         |
+| `R`       | Reset the entire tracker         |
+| `t`       | Cycle through themes             |
+| `c`       | Change the displayed currency    |
+| `q`       | Exit                             |
+
+There is no need to type a tile ID into a prompt every time you want to update your progress.
+
+Select the tile.
+
+Press `Enter`.
+
+Move on.
+
+---
+
+## Themes
+
+TUI Savings Tracker separates the application's visual identity from its underlying logic.
+
+Available themes include:
+
+* **Arch Cyan**
+* **Nord Frost**
+* **Dracula**
+* **Gruvbox Retro**
+* **Cyberpunk Neon**
+
+The default aesthetic is inspired by the visual language of Linux terminals and Arch Linux, while the application itself remains platform-agnostic.
+
+The theme system is intentionally data-driven, allowing new themes to be introduced without rewriting the rendering logic.
+
+---
+
+## Currency Display
+
+The interface supports three display currencies:
+
+```text
+$   Dollar
+€   Euro
+₹   Rupee
+```
+
+This setting controls the **display symbol**, not exchange-rate conversion.
+
+A tile worth `100` therefore remains `100`; only its presentation changes.
+
+---
+
+## Persistence
+
+The application stores state locally in JSON files:
 
 ```text
 savings_data.json
 tracker_config.json
 ```
 
-Your progress and interface preferences survive application restarts without requiring an account or external service.
+The savings file contains the state of each tile.
+
+The configuration file stores interface preferences such as:
+
+* selected theme
+* displayed currency
+
+No external service is required.
+
+Your financial data stays where the application runs.
 
 ---
 
-## Preview
+## Technical Design
+
+The application is written in Python and uses the standard library for its core functionality.
+
+Its architecture is intentionally lightweight:
 
 ```text
-       /\         ARCH SAVINGS TRACKER v3.0
-      /  \        ====================================
-     /  /\       OS Host: Arch Linux CLI (TUI Engine)
-    /  /  \      Target:  50-Tile Grid (Goal: 10,000)
-   /  /__  \     Theme:   Arch Cyan (Official)
-  /______  \
- /        \  \
-
---- SAVINGS PROGRESS GRID ---
-
-Progress:[████████████████████████░░░░░░░░] 61.0%
-
-+-----------------------+-----------------------+
-| ID | Amt    | State  | ID | Amt    | State  |
-+-----------------------+-----------------------+
-|  1 | ₹100   | [✓]    |  2 | ₹150   | [✓]    |
-+-----------------------+-----------------------+
-
-=================== STATS SUMMARY ===================
-Total Saved: ₹6,100 / ₹10,000
-Remaining  : ₹3,900
-Tiles Done : 30 of 50 completed
-=====================================================
+Input
+  │
+  ▼
+Application State
+  │
+  ├── Savings Data
+  ├── Selected Tile
+  ├── Theme
+  └── Currency
+  │
+  ▼
+Renderer
+  │
+  ▼
+Terminal
 ```
+
+Persistent state is written atomically so that an interrupted write is less likely to leave the tracker with a partially-written data file.
+
+Configuration is validated when loaded, and malformed configuration falls back to safe defaults.
 
 ---
 
-## Interface
+## Why a TUI?
 
-The main menu provides seven operations:
+A graphical interface is not inherently better.
 
-```text
-[1] View Progress Grid
-[2] Mark Tile as Saved
-[3] View Financial Summary
-[4] Unmark Tile / Reset All
-[5] Change Currency
-[6] Change Color Theme
-[7] Exit
-```
+For a small utility that primarily displays structured information and responds to a handful of commands, a terminal interface has some useful properties:
 
-The interface is intentionally menu-driven.
+* it starts instantly
+* it consumes very little system resources
+* it works well over SSH
+* it remains usable without a desktop environment
+* it encourages deliberate interaction
+* it keeps the application's information density high
 
-You don't need to remember a command hierarchy just to mark a tile as saved. The terminal tells you what to do.
+The terminal is not merely the environment here.
+
+It is the interface.
 
 ---
 
@@ -170,27 +240,37 @@ git clone https://github.com/x0ra-ssh/Arch-themed-savings-tracker.git
 cd Arch-themed-savings-tracker
 ```
 
-Run:
+Run the application:
 
 ```bash
 python main.py
 ```
 
-On systems where Python is invoked as `python3`:
+On systems where Python 3 is exposed as `python3`:
 
 ```bash
 python3 main.py
 ```
 
-No external database or server is required.
+The application uses the Python standard library and does not require an external database.
 
 ---
 
-## How It Works
+## Requirements
 
-The application initializes a local JSON database containing the 50 savings tiles.
+* Python 3
+* A terminal capable of running `curses`
+* UTF-8 terminal support recommended
 
-Each tile has three properties:
+Linux and Unix-like environments provide the most natural experience for the application.
+
+Windows users may require a compatible curses implementation such as `windows-curses`.
+
+---
+
+## Data Model
+
+Each savings tile is represented by a small JSON object:
 
 ```json
 {
@@ -200,90 +280,61 @@ Each tile has three properties:
 }
 ```
 
-When a tile is marked as saved, its state changes:
-
-```json
-{
-    "id": 1,
-    "amount": 100,
-    "saved": true
-}
-```
-
-The application then calculates:
+The tracker derives the important values from this state:
 
 ```text
-Total Goal = Sum of all tile amounts
-
-Total Saved = Sum of saved tile amounts
-
-Remaining = Total Goal - Total Saved
-
-Progress = Total Saved / Total Goal
+Total Goal
+Total Saved
+Remaining
+Completed Tiles
+Progress Percentage
 ```
 
-Nothing mysterious.
+There is no separate "progress percentage" value to become stale.
 
-Just a small amount of arithmetic wearing a very serious terminal interface.
+It is calculated from the underlying state.
 
 ---
 
 ## Project Structure
 
 ```text
-Arch-themed-savings-tracker/
+TUI Savings Tracker/
 │
 ├── main.py
-├── savings_data.json       # Generated local progress data
-├── tracker_config.json     # Generated configuration
-├── .gitignore
+├── savings_data.json
+├── tracker_config.json
+├── README.md
 ├── LICENSE
-└── README.md
+└── .gitignore
 ```
 
-The application itself is intentionally contained in a single Python entry point.
-
-For a small terminal utility, that's a feature rather than an architectural crime.
-
----
-
-## Design Philosophy
-
-The project takes inspiration from the Unix and Arch Linux approach to software:
-
-**Keep it simple. Keep it understandable. Keep the user in control.**
-
-There is no backend.
-
-There is no authentication system.
-
-There is no telemetry.
-
-There is no account creation flow.
-
-There is no web application pretending that calculating a percentage requires a distributed architecture.
-
-The tracker does one thing and tries to do it cleanly.
+The current implementation deliberately keeps the project compact. Complexity is introduced only when it earns its place.
 
 ---
 
 ## Roadmap
 
-Possible future improvements include:
+The current application is intentionally focused. Future development can extend the tracker without turning it into a miniature banking platform.
 
-* Custom savings goals
-* User-defined tile amounts
-* Multiple challenges
-* Savings history
-* Contribution timestamps
-* Data export/import
-* Richer terminal visualizations
-* Command-line arguments
-* Automated tests
-* Configurable themes
-* Installable Python package
+Potential directions include:
 
-The challenge is to expand the utility without destroying the simplicity that makes it useful in the first place.
+* contribution history
+* timestamps for completed tiles
+* savings velocity
+* historical progress graphs
+* custom savings challenges
+* user-defined tile values
+* multiple goals
+* data export and import
+* richer terminal widgets
+* configurable layouts
+* automated tests
+* installable Python packaging
+
+The guiding rule remains simple:
+
+> **Make the interface more capable without making it more complicated.**
 
 ---
 
@@ -291,11 +342,11 @@ The challenge is to expand the utility without destroying the simplicity that ma
 
 Contributions are welcome.
 
-If you want to improve the project, fork the repository, make your changes, and open a pull request.
+When proposing changes, prioritize:
 
-Keep the core principle intact:
+**clarity, reliability, usability, and restraint.**
 
-> **More useful, not merely more complicated.**
+A feature should solve a real problem before it earns a place in the interface.
 
 ---
 
@@ -307,20 +358,14 @@ See [`LICENSE`](./LICENSE) for the complete license text.
 
 ---
 
-## Final Note
+## Closing
 
-Personal finance apps love dashboards.
+Most budgeting software tries to become a financial command center.
 
-Graphs. Notifications. Recommendations. Accounts. Syncing. Twelve different ways to tell you that you spent too much money.
+TUI Savings Tracker does not.
 
-Arch Savings Tracker takes the opposite route.
+It gives you a fixed objective, a visible representation of progress, and a quiet place to keep moving toward it.
 
-**Fifty tiles. Ten thousand. One terminal.**
+**50 tiles. 10,000 units. One terminal.**
 
-Save the tile.
-
-Fill the grid.
-
-Finish the challenge.
-
-> **Keep it simple. Keep it yours.**
+That is enough.
