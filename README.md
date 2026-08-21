@@ -1,8 +1,8 @@
-# Arch Savings Tracker
+# TUI Savings Tracker
 
 > **A 10,000-unit savings challenge for the terminal.**
 
-A minimal, Arch-inspired terminal savings tracker built with Python.
+A minimal terminal savings tracker with a TUI built with Python.
 
 The concept is deliberately simple: **50 savings tiles, one fixed goal, and a terminal interface that makes watching the number go up considerably more satisfying than it has any right to be.**
 
@@ -14,7 +14,7 @@ Just save a tile, watch the grid fill up, and eventually discover that apparentl
 
 ## The Idea
 
-Arch Savings Tracker is built around a simple **50-tile savings challenge**.
+TUI Savings Tracker is built around a simple **50-tile savings challenge**.
 
 The tracker contains 50 tiles with values ranging from **100 to 300**, adding up to a total savings target of **10,000**.
 
